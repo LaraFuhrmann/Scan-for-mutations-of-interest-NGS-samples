@@ -13,6 +13,10 @@ def main(fnames_snv_csv, all_samples, fout_all_mutations_csv):
         if f_snv_vcf.endswith(".vcf"):
             df_tmp = pyvcf.VcfFrame.from_file(f_snv_vcf).df
             df_tmp['sample'] = sample
+            #INFO field to dataframe
+            info_strings = '{"' + df_tmp.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
+            info_df = pd.json_normalize(info_strings.apply(eval))
+            df_tmp = pd.concat([df_tmp, info_df.reset_index(drop=True)], axis=1)
         else:
             df_tmp = pd.read_csv(f_snv_vcf)
             df_tmp['sample'] = sample
