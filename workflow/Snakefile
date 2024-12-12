@@ -60,10 +60,7 @@ rule annotate_vcf:
 ## 5. filter and merged togehter annoated files to csv
 rule merge_mutations_of_interest:
     input:
-        vcf_list=[
-            config['base_path_vpipe_output']+"results/{sample}/references/consensus.bcftools.annotated.vcf"
-            for sample in all_samples
-        ],
+        vcf_list=expand(config['base_path_vpipe_output']+"results/{sample}/references/consensus.bcftools.annotated.vcf", sample=all_samples),
     output:
         fname_result_csv="results/mutations_of_interest.csv",
     params:
