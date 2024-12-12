@@ -1,0 +1,5 @@
+base_path_vpipe_output: "/cluster/project/pangolin/work-vp-test/results/"
+fpath_mutation_of_interests: "resources/drug_resistance_mutations.csv"
+# timeline file of columns [sample, batch, reads, proto, location_code, date, location]
+fpath_timeline: "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
+fpath_genome_annotation: "resources/GCF_009858895.2_ASM985889v3_genomic.gbff"
