@@ -34,9 +34,9 @@ all_samples = ["E2_19_2024_10_01/20241018_AAG55WNM5"]
 ## 3. Translate bcf file to vcf
 rule bcf2vcf:
     input:
-        fname_bcf=config['base_path_vpipe_output']+"{sample}/references/consensus.bcftools.bcf.gz",
+        fname_bcf=config['base_path_vpipe_output']+f"{sample}/references/consensus.bcftools.bcf.gz",
     output:
-        fname_vcf=config['base_path_vpipe_output']+"results/{sample}/references/consensus.bcftools.vcf",
+        fname_vcf=config['base_path_vpipe_output']+f"results/{sample}/references/consensus.bcftools.vcf",
     conda:
         "envs/annotate_vcf.yaml"
     shell:
@@ -48,10 +48,10 @@ rule bcf2vcf:
 ## 4. Annoated vcf file with amino acids
 rule annotate_vcf:
     input:
-        fname_snvs_vcf=config['base_path_vpipe_output']+"results/{sample}/references/consensus.bcftools.vcf",
+        fname_snvs_vcf=config['base_path_vpipe_output']+f"results/{sample}/references/consensus.bcftools.vcf",
         fname_genbank_file=config['fpath_genome_annotation'],
     output:
-        fname_snvs_vcf=config['base_path_vpipe_output']+"results/{sample}/references/consensus.bcftools.annotated.vcf",
+        fname_snvs_vcf=config['base_path_vpipe_output']+f"results/{sample}/references/consensus.bcftools.annotated.vcf",
     conda:
         "envs/annotate_vcf.yaml"
     script:
@@ -61,7 +61,7 @@ rule annotate_vcf:
 rule merge_mutations_of_interest:
     input:
         vcf_list=[
-            config['base_path_vpipe_output']+"results/{sample}/references/consensus.bcftools.annotated.vcf"
+            config['base_path_vpipe_output']+f"results/{sample}/references/consensus.bcftools.annotated.vcf"
             for sample in all_samples
         ],
     output:
@@ -78,7 +78,7 @@ rule merge_mutations_of_interest:
 rule merge_coverage:
     input:
         fnames=[
-            f"results/{sample}/alignments/coverage.tsv.gz" # 1-based
+            config['base_path_vpipe_output']+f"results/{sample}/alignments/coverage.tsv.gz" # 1-based
             for sample in all_samples
         ],
     params:
