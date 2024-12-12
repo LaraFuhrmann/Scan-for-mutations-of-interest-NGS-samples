@@ -11,23 +11,19 @@ def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_cs
     for sample, f_snv_vcf in zip(all_samples, fnames_snv_csv):
 
         f_snv_vcf = str(f_snv_vcf)
-
-        if f_snv_vcf.endswith(".vcf"):
-            df_vcf = pyvcf.VcfFrame.from_file(f_snv_vcf).df
-            df_vcf['sample'] = sample
-            df_vcf = df_vcf[df_vcf['POS'].isin(nucleotide_positions_muts_list)]
-            if df_vcf.shape[0]==0:
-                # add empty row
-                df_tmp = pd.DataFrame({"sample": sample_name})
-            else:
-                #INFO field to dataframe
-                # INFO field to dataframe
-                info_strings = '{"' + df_vcf.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
-                info_df = pd.json_normalize(info_strings.apply(eval))
-                df_tmp = pd.concat([df_vcf, info_df], axis=1)
+        df_vcf = pyvcf.VcfFrame.from_file(f_snv_vcf).df
+        df_vcf['sample'] = sample
+        df_vcf = df_vcf[df_vcf['POS'].isin(nucleotide_positions_muts_list)]
+        if df_vcf.shape[0]==0:
+            # add empty row
+            df_tmp = pd.DataFrame({"sample": sample_name})
         else:
-            df_tmp = pd.read_csv(f_snv_vcf)
-            df_tmp['sample'] = sample
+            #INFO field to dataframe
+            # INFO field to dataframe
+            #info_strings = '{"' + df_vcf.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
+            #info_df = pd.json_normalize(info_strings.apply(eval))
+            #df_tmp = pd.concat([df_vcf, info_df], axis=1)
+            df_tmp = df_vcf
 
         tmp.append(df_tmp)
 
