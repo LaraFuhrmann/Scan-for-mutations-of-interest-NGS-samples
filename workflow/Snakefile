@@ -40,7 +40,9 @@ rule bcf2vcf:
     conda:
         "envs/annotate_vcf.yaml"
     shell:
-        "bcftools view -O v -o {output.fname_vcf} {input.fname_bcf}"
+        """
+        bcftools view -O v -o {output.fname_vcf} {input.fname_bcf}
+        """
 
 
 ## 4. Annoated vcf file with amino acids
