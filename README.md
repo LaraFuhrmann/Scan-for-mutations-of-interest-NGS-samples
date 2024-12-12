@@ -1,1 +1,1 @@
-# SARS-CoV-2-ww-mutations-of-interest
+# Scan for mutations of interest in NGS samples processed with V-pipe
