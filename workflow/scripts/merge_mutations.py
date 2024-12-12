@@ -27,11 +27,11 @@ def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_cs
     )
 
     # weirdly we get nan rows
-    merged_div_csv = merged_div_csv[~merged_div_csv['sample'].isnull()]
+    #merged_div_csv = merged_div_csv[~merged_div_csv['sample'].isnull()]
 
-    info_strings = '{"' + merged_div_csv.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
-    info_df = pd.json_normalize(info_strings.apply(eval))
-    merged_div_csv = pd.concat([merged_div_csv, info_df], axis=1)
+    #info_strings = '{"' + merged_div_csv.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
+    #info_df = pd.json_normalize(info_strings.apply(eval))
+    #merged_div_csv = pd.concat([merged_div_csv, info_df], axis=1)
     merged_div_csv.to_csv(fout_all_mutations_csv)
 
 if __name__ == "__main__":
