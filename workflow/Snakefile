@@ -61,7 +61,7 @@ rule annotate_vcf:
 rule merge_mutations_of_interest:
     input:
         vcf_list=[
-            config['base_path_vpipe_output']+f"results/{sample}/references/consensus.bcftools.annotated.vcf"
+            config['base_path_vpipe_output']+"results/{sample}/references/consensus.bcftools.annotated.vcf"
             for sample in all_samples
         ],
     output:
