@@ -72,6 +72,7 @@ rule merge_mutations_of_interest:
         fname_result_csv="results/mutations_of_interest.csv",
     params:
         all_samples=all_samples,
+        fname_mutation_list=config['fpath_mutation_of_interests'],
     conda:
         "envs/annotate_vcf.yaml"
     script:
