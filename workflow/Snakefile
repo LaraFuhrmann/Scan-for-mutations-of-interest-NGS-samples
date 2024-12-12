@@ -37,6 +37,8 @@ rule bcf2vcf:
         fname_bcf=config['base_path_vpipe_output']+"{{sample}}/references/consensus.bcftools.bcf.gz",
     output:
         fname_vcf=config['base_path_vpipe_output']+"results/{{sample}}/references/consensus.bcftools.vcf",
+    conda:
+        "envs/annotate_vcf.yaml"
     shell:
         "bcftools view -O v -o {output.fname_vcf} {input.fname_bcf}"
 
