@@ -2,20 +2,20 @@ import pandas as pd
 from fuc import pyvcf
 
 
-def main(fnames_snv_csv, fout_all_mutations_csv):
+def main(fnames_snv_csv, all_samples, fout_all_mutations_csv):
 
     tmp = []
 
-    for f_snv_vcf in fnames_snv_csv:
+    for sample, f_snv_vcf in zip(all_samples, fnames_snv_csv):
 
         f_snv_vcf = str(f_snv_vcf)
 
         if f_snv_vcf.endswith(".vcf"):
             df_tmp = pyvcf.VcfFrame.from_file(f_snv_vcf).df
-            df_tmp['file'] = f_snv_vcf
+            df_tmp['sample'] = sample
         else:
             df_tmp = pd.read_csv(f_snv_vcf)
-            df_tmp['file'] = f_snv_vcf
+            df_tmp['sample'] = sample
 
         tmp.append(df_tmp)
 
@@ -27,6 +27,7 @@ def main(fnames_snv_csv, fout_all_mutations_csv):
 if __name__ == "__main__":
     main(
         snakemake.input.fnames_snv_csv,
+        snakemake.params.all_samples,
         snakemake.output.fname_result_csv,
     )
 
