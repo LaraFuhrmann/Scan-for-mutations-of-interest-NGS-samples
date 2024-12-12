@@ -22,9 +22,10 @@ def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_cs
             else:
                 #INFO field to dataframe
                 # INFO field to dataframe
-                info_strings = '{"' + df_vcf.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
-                info_df = pd.json_normalize(info_strings.apply(eval))
-                df_tmp = pd.concat([df_vcf, info_df], axis=1)
+                #info_strings = '{"' + df_vcf.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
+                #info_df = pd.json_normalize(info_strings.apply(eval))
+                df_tmp = df_vcf
+                #pd.concat([df_vcf, info_df], axis=1)
         else:
             df_tmp = pd.read_csv(f_snv_vcf)
             df_tmp['sample'] = sample
