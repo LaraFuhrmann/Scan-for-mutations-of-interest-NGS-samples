@@ -13,7 +13,7 @@ def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_cs
         f_snv_vcf = str(f_snv_vcf)
         df_vcf = pyvcf.VcfFrame.from_file(f_snv_vcf).df
         df_vcf['sample'] = sample
-        df_vcf = df_vcf[df_vcf['POS'].isin(nucleotide_positions_muts_list)]
+        #df_vcf = df_vcf[df_vcf['POS'].isin(nucleotide_positions_muts_list)]
         if df_vcf.shape[0]==0:
             # add empty row
             df_tmp = pd.DataFrame({"sample": sample_name})
