@@ -87,8 +87,6 @@ rule merge_coverage:
         fname_result_csv="results/coverage_all.csv",
     params:
         params=all_samples,
-    conda:
-        "envs/annotate_vcf.yaml",
     run:
         import pandas as pd
         tmp = []
