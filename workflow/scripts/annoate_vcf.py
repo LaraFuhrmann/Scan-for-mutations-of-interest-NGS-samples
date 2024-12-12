@@ -384,9 +384,9 @@ def main(fname_snv_in, fname_genbank_file, fname_snv_out):
     sample = str(fname_snv_out).split("/variants")[0].split("/")[-4]
     fname_snv_temp = str(fname_snv_in).split('.vcf')[0]+'.temp.vcf'
 
-    update_vcf_chrom(fname_snv_in, fname_snv_temp, chrom_name)
+    #update_vcf_chrom(fname_snv_in, fname_snv_temp, chrom_name)
 
-    annotator = Annotator(gb_file=fname_genbank_file, vcf_file=fname_snv_temp)
+    annotator = Annotator(gb_file=fname_genbank_file, vcf_file=fname_snv_in)
     annotator.annotate_vcf_records()
     annotator.write_vcf(fname_snv_out)
 
