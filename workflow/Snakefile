@@ -45,7 +45,7 @@ rule bcf2vcf:
     shell:
         """
         bcftools view -O v -o {output.fname_vcf} {input.fname_bcf}
-        bcftools norm -m -both {output.fname_vcf}
+        bcftools norm -m -both -o {output.fname_vcf} {output.fname_vcf}
         """
 
 
