@@ -18,11 +18,6 @@ def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_cs
             # add empty row
             df_tmp = pd.DataFrame({"sample": sample_name})
         else:
-            #INFO field to dataframe
-            # INFO field to dataframe
-            #info_strings = '{"' + df_vcf.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
-            #info_df = pd.json_normalize(info_strings.apply(eval))
-            #df_tmp = pd.concat([df_vcf, info_df], axis=1)
             df_tmp = df_vcf
 
         tmp.append(df_tmp)
@@ -30,6 +25,13 @@ def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_cs
     merged_div_csv = pd.concat(
         tmp
     )
+
+    # weirdly we get nan rows
+    merged_div_csv = merged_div_csv[~merged_div_csv['sample'].isnull()]
+
+    info_strings = '{"' + merged_div_csv.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
+    info_df = pd.json_normalize(info_strings.apply(eval))
+    merged_div_csv = pd.concat([merged_div_csv, info_df], axis=1)
     merged_div_csv.to_csv(fout_all_mutations_csv)
 
 if __name__ == "__main__":
