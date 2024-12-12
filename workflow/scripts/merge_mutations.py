@@ -27,7 +27,7 @@ def main(fnames_snv_csv, fout_all_mutations_csv):
 if __name__ == "__main__":
     main(
         snakemake.input.fnames_snv_csv,
-        snakemake.output.fname_all_mutations,
+        snakemake.output.fname_result_csv,
     )
 
 
