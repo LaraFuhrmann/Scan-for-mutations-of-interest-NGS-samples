@@ -86,13 +86,13 @@ def extract_sample_ID(
     ]
     selected_rows['sample+batch'] = selected_rows["sample"] + "/" + selected_rows["batch"]
     samples_ID = selected_rows['sample+batch'].unique()
-    return samples_ID
+    return list(samples_ID)
 
 # get all locations
 locations = pd.read_csv(fpath_timeline, sep="\t")["location"].unique()
 
 # get samples_IDs from the specified location, time and sequencing protocol
-sample_IDs = [extract_sample_ID(
+sample_IDs = [*extract_sample_ID(
         fpath_timeline, startdatetime, enddatetime, loc
     ) for loc in locations] # TODO: Add batch and bring in right format for workflow
 # TODO: interate over locations
