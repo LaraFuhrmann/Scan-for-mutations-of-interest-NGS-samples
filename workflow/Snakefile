@@ -34,8 +34,8 @@ rule all:
 ## https://github.com/cbg-ethz/virus-private/issues/29
 
 fpath_timeline = config['fpath_timeline']
-startdatetime =  datetime.now()
-enddatetime = startdatetime - timedelta(weeks=5)
+enddatetime =  datetime.now()
+startdatetime = enddatetime - timedelta(weeks=5)
 
 # correct format
 startdatetime = datetime.strptime(str(startdatetime.strftime('%Y-%m-%d')), '%Y-%m-%d')
@@ -149,7 +149,6 @@ rule merge_mutations_of_interest:
 
 
 ## 6. Collect interesting coverage information for posiitons of interests
-## 5. filter and merged togehter annoated files to csv
 rule merge_coverage:
     input:
         fnames=[
