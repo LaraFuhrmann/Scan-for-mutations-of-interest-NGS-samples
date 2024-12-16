@@ -34,7 +34,7 @@ rule all:
 ## https://github.com/cbg-ethz/virus-private/issues/29
 
 fpath_timeline = config['fpath_timeline']
-startdatetime =  datetime.now().strftime('%Y-%m-%d')
+startdatetime =  datetime.now()
 enddatetime = startdatetime - timedelta(weeks=5)
 
 # correct format
