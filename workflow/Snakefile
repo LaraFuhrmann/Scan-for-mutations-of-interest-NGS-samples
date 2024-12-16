@@ -153,7 +153,7 @@ rule merge_mutations_of_interest:
 ## 6. Collect interesting coverage information for posiitons of interests
 rule filter_coverage:
     input:
-        fnames=config['base_path_vpipe_output']+"{sample}/alignments/coverage.tsv.gz" , # 1-based
+        fname=config['base_path_vpipe_output']+"{sample}/alignments/coverage.tsv.gz" , # 1-based
         fname_mutation_list=config['fpath_mutation_of_interests'],
     params:
         fname_mutation_list=config['fpath_mutation_of_interests'],
@@ -163,7 +163,7 @@ rule filter_coverage:
         import pandas as pd
         # load DRM
         nucleotide_positions_muts_list = pd.read_csv(params.fname_mutation_list)['PosNucleotide'].unique()
-        df =  pd.read_csv(fname, sep="\t")
+        df =  pd.read_csv(input.fname, sep="\t")
         df[df['pos'].isin(nucleotide_positions_muts_list)].to_csv(output.fname_csv)
 
 rule merge_coverage:
