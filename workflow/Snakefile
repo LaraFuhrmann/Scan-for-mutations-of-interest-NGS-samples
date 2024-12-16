@@ -140,8 +140,6 @@ rule merge_mutations_of_interest:
         for sample in all_samples],
     output:
         fname_result_csv_filtered="results/signatures/mutations_of_interest.csv",
-    conda:
-        "envs/annotate_vcf.yaml"
     run:
         import pandas as pd
         pd.concat([pd.read_csv(f_snv_csv) for f_snv_csv in input.fnames_snv_csv]).to_csv(output.fname_result_csv_filtered)
@@ -171,8 +169,6 @@ rule merge_coverage:
         for sample in all_samples],
     output:
         fname_result_csv_filtered="results/signatures/coverage.mutations_of_interest.csv",
-    conda:
-        "envs/annotate_vcf.yaml"
     run:
         import pandas as pd
         pd.concat([pd.read_csv(f_snv_csv) for f_snv_csv in input.fnames_snv_csv]).to_csv(output.fname_result_csv_filtered)
