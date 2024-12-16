@@ -89,7 +89,7 @@ def extract_sample_ID(
     return samples_ID
 
 # get all locations
-locations = pd.read_csv(fpath_timeline)["location"].unique()
+locations = pd.read_csv(fpath_timeline, sep="\t")["location"].unique()
 
 # get samples_IDs from the specified location, time and sequencing protocol
 sample_IDs = [extract_sample_ID(
