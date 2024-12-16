@@ -38,8 +38,8 @@ startdatetime =  datetime.now()
 enddatetime = startdatetime - timedelta(weeks=5)
 
 # correct format
-startdatetime = datetime.strptime(startdatetime, '%Y-%m-%d')
-enddatetime = datetime.strptime(enddatetime, '%Y-%m-%d')
+startdatetime = datetime.strptime(str(startdatetime), '%Y-%m-%d')
+enddatetime = datetime.strptime(str(enddatetime), '%Y-%m-%d')
 print(enddatetime)
 
 ## This function is copied from https://github.com/gordonkoehn/UsefulGnom/blob/main/src/usefulgnom/serialize/coverage.py#L8
