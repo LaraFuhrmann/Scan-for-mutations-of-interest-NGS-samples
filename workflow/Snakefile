@@ -149,11 +149,11 @@ rule merge_mutations_of_interest:
 ## 6. Collect interesting coverage information for posiitons of interests
 rule filter_coverage:
     input:
-        fnames=config['base_path_vpipe_output']+f"{sample}/alignments/coverage.tsv.gz" , # 1-based
+        fnames=config['base_path_vpipe_output']+"{sample}/alignments/coverage.tsv.gz" , # 1-based
     params:
         samples=all_samples,
     output:
-        fname_csv=config['base_path_vpipe_output']+f"{sample}/alignments/coverage.mutations_of_interest.csv",
+        fname_csv=config['base_path_vpipe_output']+"{sample}/alignments/coverage.mutations_of_interest.csv",
     params:
         fname_mutation_list=config['fpath_mutation_of_interests'],
     run:
