@@ -48,7 +48,6 @@ def extract_sample_ID(
     timeline_file_dir: str,
     startdate: datetime = datetime.strptime("2024-01-01", "%Y-%m-%d"),
     enddate: datetime = datetime.strptime("2024-07-03", "%Y-%m-%d"),
-    location: str = "Zürich (ZH)",
 ) -> pd.DataFrame:
     """
     Extract the sample ID of the samples from selected time period,
@@ -82,18 +81,15 @@ def extract_sample_ID(
         # (according to samples.wastewateronly.ready.tsv)
         (timeline_file["date"] > startdate.strftime("%Y-%m-%d"))
         & (timeline_file["date"] < enddate.strftime("%Y-%m-%d"))
-        & (timeline_file["location"].isin([location]))
     ]
     selected_rows['sample+batch'] = selected_rows["sample"] + "/" + selected_rows["batch"]
     samples_ID = selected_rows['sample+batch'].unique()
     return list(samples_ID)
 
-# get all locations
-locations = pd.read_csv(fpath_timeline, sep="\t")["location"].unique()
-
 # get samples_IDs from the specified location, time and sequencing protocol
-sample_IDs = [[*list(extract_sample_ID(fpath_timeline, startdatetime, enddatetime, loc))] for loc in locations] # TODO: Add batch and bring in right format for workflow
-# TODO: interate over locations
+sample_IDs = extract_sample_ID(
+        fpath_timeline, startdatetime, enddatetime
+    )
 
 print(sample_IDs)
 all_samples = sample_IDs
