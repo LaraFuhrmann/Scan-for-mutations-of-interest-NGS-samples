@@ -1,8 +1,39 @@
 import pandas as pd
 from fuc import pyvcf
 
+# variables needed from INFO:
+def f_get_DP(row_info):
+    return int(row_info.split("DP=")[-1].split(';')[0])
 
-def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_csv):
+def f_get_n_AltReads(row_info):
+    #Number of high-quality ref-forward, ref-reverse, alt-forward and alt-reverse bases
+    DP4 = row_info.split("DP4=")[-1].split(';')[0]
+    return int(DP4.split(',')[-1]) + int(DP4.split(',')[-2])
+
+def f_get_n_RefReads(row_info):
+    #Number of high-quality ref-forward, ref-reverse, alt-forward and alt-reverse bases
+    DP4 = row_info.split("DP4=")[-1].split(';')[0]
+    return int(DP4.split(',')[0]) + int(DP4.split(',')[1])
+
+def f_get_RefCodon(row_info):
+    return row_info.split("RefCodon=")[-1].split(';')[0]
+
+def f_get_AltCodon(row_info):
+    return row_info.split("AltCodon=")[-1].split(';')[0]
+
+def f_get_RefAminoAcid(row_info):
+    return row_info.split("RefAminoAcid=")[-1].split(';')[0]
+
+def f_get_AltAminoAcid(row_info):
+    return row_info.split("AltAminoAcid=")[-1].split(';')[0]
+
+def f_get_CodonPosition(row_info):
+    return row_info.split("CodonPosition=")[-1].split(';')[0]
+
+def f_get_SNPCodonPosition(row_info):
+    return row_info.split("SNPCodonPosition=")[-1].split(';')[0]
+
+def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_csv, fname_result_csv_filtered):
 
     tmp = []
 
@@ -22,17 +53,34 @@ def main(fnames_snv_csv, fname_mutation_list, all_samples, fout_all_mutations_cs
 
         tmp.append(df_tmp)
 
-    merged_div_csv = pd.concat(
+    df_merged = pd.concat(
         tmp
     )
 
     # weirdly we get nan rows
-    #merged_div_csv = merged_div_csv[~merged_div_csv['sample'].isnull()]
+    df_merged = df_merged[~df_merged['sample'].isnull()]
 
-    #info_strings = '{"' + merged_div_csv.INFO.str.split(';').str.join('","').str.replace('=','":"').str.replace("\"\",", "") + '"}'
-    #info_df = pd.json_normalize(info_strings.apply(eval))
-    #merged_div_csv = pd.concat([merged_div_csv, info_df], axis=1)
-    merged_div_csv.to_csv(fout_all_mutations_csv)
+    df_merged['DP'] = df_merged['INFO'].apply(f_get_DP)
+    df_merged['n_AltReads'] = df_merged['INFO'].apply(f_get_n_AltReads)
+    df_merged['n_RefReads'] = df_merged['INFO'].apply(f_get_n_RefReads)
+    df_merged['RefCodon'] = df_merged['INFO'].apply(f_get_RefCodon)
+    df_merged['AltCodon'] = df_merged['INFO'].apply(f_get_AltCodon)
+    df_merged['RefAminoAcid'] = df_merged['INFO'].apply(f_get_RefAminoAcid)
+    df_merged['AltAminoAcid'] = df_merged['INFO'].apply(f_get_AltAminoAcid)
+    df_merged['CodonPosition'] = df_merged['INFO'].apply(f_get_CodonPosition)
+    df_merged['SNPCodonPosition'] = df_merged['INFO'].apply(f_get_SNPCodonPosition)
+
+    df_merged = df_merged[['sample','POS', 'REF', 'ALT',  'DP', 'n_AltReads', 'n_RefReads', 'RefCodon', 'AltCodon',
+       'RefAminoAcid', 'AltAminoAcid', 'CodonPosition', 'SNPCodonPosition', 'INFO']]
+
+    df_merged.to_csv(fout_all_mutations_csv)
+
+    # load DRM
+    df_drm = pd.read_csv(fname_mutation_list)
+    df_drm['POS'] = df_drm['PosNucleotide']
+    df_drm['CodonPosition'] = df_drm['PosAminoAcid'].astype(int)
+
+    df = pd.merge(df_muts, df_drm, on=["POS", "AltAminoAcid"], how="inner").to_csv(fname_result_csv_filtered)
 
 if __name__ == "__main__":
     main(
@@ -40,18 +88,5 @@ if __name__ == "__main__":
         snakemake.params.fname_mutation_list,
         snakemake.params.all_samples,
         snakemake.output.fname_result_csv,
+        snakemake.output.fname_result_csv_filtered,
     )
-
-
-"""
-    # filter for positions of interest
-    df_muts = df_muts[df_muts['POS'].isin(positions_of_interest)]
-
-    # for samples that don't have positins of interest we need to add an empty lind
-    for sample_name in all_samples:
-        if sample_name not in df_muts['sample'].unique():
-            # create empty row
-            df_muts = df_muts.append({'sample':sample_name}, ignore_index=True)
-            #df_muts = pd.concat([df_muts, pd.DataFrame({"sample": sample_name})])
-
-"""
