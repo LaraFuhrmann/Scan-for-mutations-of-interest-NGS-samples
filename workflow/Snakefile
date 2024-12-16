@@ -35,7 +35,7 @@ rule all:
 
 fpath_timeline = config['fpath_timeline']
 enddatetime =  datetime.now()
-startdatetime = enddatetime - timedelta(weeks=4)
+startdatetime = enddatetime - timedelta(weeks=3)
 
 # correct format
 startdatetime = datetime.strptime(str(startdatetime.strftime('%Y-%m-%d')), '%Y-%m-%d')
