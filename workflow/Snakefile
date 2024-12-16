@@ -35,7 +35,9 @@ rule all:
 
 fpath_timeline = config['fpath_timeline']
 startdatetime =  datetime.now()
+print(startdatetime)
 enddatetime = startdatetime - timedelta(weeks=5)
+print(enddatetime)
 
 ## This function is copied from https://github.com/gordonkoehn/UsefulGnom/blob/main/src/usefulgnom/serialize/coverage.py#L8
 ## and was created by Auguste and Gordon
