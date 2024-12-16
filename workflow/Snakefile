@@ -84,8 +84,8 @@ def extract_sample_ID(
         & (timeline_file["date"] < enddate.strftime("%Y-%m-%d"))
         & (timeline_file["location"].isin([location]))
     ]
-
-    samples_ID = selected_rows["sample"] + "/" + selected_rows["batch"]
+    selected_rows['sample+batch'] = selected_rows["sample"] + "/" + selected_rows["batch"]
+    samples_ID = selected_rows['sample+batch'].unique()
     return samples_ID
 
 # get all locations
