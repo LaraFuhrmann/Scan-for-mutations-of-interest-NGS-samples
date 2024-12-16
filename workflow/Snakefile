@@ -92,7 +92,7 @@ def extract_sample_ID(
 locations = pd.read_csv(fpath_timeline, sep="\t")["location"].unique()
 
 # get samples_IDs from the specified location, time and sequencing protocol
-sample_IDs = [*extract_sample_ID(
+sample_IDs = [extract_sample_ID(
         fpath_timeline, startdatetime, enddatetime, loc
     ) for loc in locations] # TODO: Add batch and bring in right format for workflow
 # TODO: interate over locations
