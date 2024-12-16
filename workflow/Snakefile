@@ -35,8 +35,11 @@ rule all:
 
 fpath_timeline = config['fpath_timeline']
 startdatetime =  datetime.now().strftime('%Y-%m-%d')
-print(startdatetime)
 enddatetime = startdatetime - timedelta(weeks=5)
+
+# correct format
+startdatetime = str(startdatetime.strftime('%Y-%m-%d'))
+enddatetime = str(enddatetime.strftime('%Y-%m-%d'))
 print(enddatetime)
 
 ## This function is copied from https://github.com/gordonkoehn/UsefulGnom/blob/main/src/usefulgnom/serialize/coverage.py#L8
@@ -91,7 +94,7 @@ def extract_sample_ID(
 # get samples_IDs from the specified location, time and sequencing protocol
 
 sample_IDs = extract_sample_ID(
-        fpath_timeline, startdatetime.strftime('%Y-%m-%d'), enddatetime.strftime('%Y-%m-%d'), "Zürich (ZH)"
+        fpath_timeline, startdatetime, enddatetime, "Zürich (ZH)"
     )
 
 print(sample_IDs)
