@@ -35,7 +35,7 @@ rule all:
 
 fpath_timeline = config['fpath_timeline']
 enddatetime =  datetime.now()
-startdatetime = enddatetime - timedelta(weeks=5)
+startdatetime = enddatetime - timedelta(weeks=4)
 
 # correct format
 startdatetime = datetime.strptime(str(startdatetime.strftime('%Y-%m-%d')), '%Y-%m-%d')
@@ -174,4 +174,8 @@ rule merge_coverage:
         pd.concat([pd.read_csv(f_snv_csv) for f_snv_csv in input.fnames_snv_csv]).to_csv(output.fname_result_csv_filtered)
 
 
-## 7. Generate heatmap
+## 7. Prepare heatmap dataframe
+
+
+
+## 8. To get the heatmap run jupyter notebook
