@@ -95,9 +95,9 @@ print(extract_sample_ID(
         fpath_timeline, startdatetime, enddatetime, "Zürich (ZH)"
     ))
 # get samples_IDs from the specified location, time and sequencing protocol
-sample_IDs = [*list(extract_sample_ID(
+sample_IDs = [extract_sample_ID(
         fpath_timeline, startdatetime, enddatetime, loc
-    )) for loc in locations] # TODO: Add batch and bring in right format for workflow
+    ) for loc in locations] # TODO: Add batch and bring in right format for workflow
 # TODO: interate over locations
 
 print(sample_IDs)
