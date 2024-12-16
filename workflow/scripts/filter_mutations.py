@@ -39,7 +39,7 @@ def main(fname_snvs_vcf, fname_mutation_list, fname_snvs_csv):
 
     nucleotide_positions_muts_list = pd.read_csv(fname_mutation_list)['PosNucleotide']
 
-    f_snv_vcf = str(f_snv_vcf)
+    f_snv_vcf = str(fname_snvs_vcf)
     df_vcf = pyvcf.VcfFrame.from_file(f_snv_vcf).df
     df_vcf['sample'] = f_snv_vcf.split("/")[-4]+"/"+f_snv_vcf.split("/")[-3]
     #df_vcf = df_vcf[df_vcf['POS'].isin(nucleotide_positions_muts_list)]
