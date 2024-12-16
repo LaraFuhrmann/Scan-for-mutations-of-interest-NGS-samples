@@ -89,7 +89,7 @@ def extract_sample_ID(
 # get samples_IDs from the specified location, time and sequencing protocol
 
 sample_IDs = extract_sample_ID(
-        fpath_timeline, startdatetime, enddatetime, location
+        fpath_timeline, startdatetime, enddatetime, "Zürich (ZH)"
     )
 
 print(sample_IDs)
