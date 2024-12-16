@@ -11,8 +11,7 @@ Output is a file with the mutations of interest and heatmap
 7. Generate heatmap
 """
 import yaml
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime, timedelta
 import pandas as pd
 
 def load_config(path):
@@ -35,8 +34,8 @@ rule all:
 ## https://github.com/cbg-ethz/virus-private/issues/29
 
 fpath_timeline = config['fpath_timeline']
-startdatetime =  date.today()
-enddatetime = datetime.strptime(enddate, "%Y-%m-%d")
+startdatetime =  datetime.now()
+enddatetime = startdatetime - timedelta(weeks=5)
 
 ## This function is copied from https://github.com/gordonkoehn/UsefulGnom/blob/main/src/usefulgnom/serialize/coverage.py#L8
 ## and was created by Auguste and Gordon
