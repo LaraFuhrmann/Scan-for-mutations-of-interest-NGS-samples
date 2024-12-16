@@ -71,7 +71,7 @@ def extract_sample_ID(
     timeline_file = pd.read_csv(
         timeline_file_dir,
         sep="\t",
-        usecols=["sample", "proto", "date", "location"],
+        usecols=["sample", "batch", "proto", "date", "location"],
         encoding="utf-8",
     )
     # convert the "date" column to datetime type:
