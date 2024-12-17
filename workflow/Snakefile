@@ -193,6 +193,9 @@ rule prepare_heatmap:
         import numpy as np
 
         df_muts = pd.read_csv(input.fname_muts)
+        df['Mutation'] = df['gene']+":"+df['Mutation']
+        df['Frequency'] =  df['n_AltReads']/(df['n_RefReads']+df['n_AltReads'])
+        
         df_cov = pd.read_csv(input.fname_cov)
 
         orders = df_muts.sort_values('POS')['mutation_id'].unique()

@@ -70,7 +70,7 @@ def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
                                "gene": '.',
                                "Mutation": '.',
                                "n_AltReads":0,
-                               "n_RefReads": 1, 
+                               "n_RefReads": 0.000001, # just >0 to make divsiion possible below
                                "location": location})
     else:
         df_tmp = df_vcf
@@ -94,9 +94,6 @@ def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
     df_drm['CodonPosition'] = df_drm['PosAminoAcid'].astype(int)
 
     df = pd.merge(df_tmp, df_drm, on=["POS", "AltAminoAcid"], how="right").to_csv(fname_snvs_csv)
-
-    df['Mutation'] = df['gene']+":"+df['Mutation']
-    df['Frequency'] =  df['n_AltReads']/(df['n_RefReads']+df['n_AltReads'])
 
 if __name__ == "__main__":
     main(
