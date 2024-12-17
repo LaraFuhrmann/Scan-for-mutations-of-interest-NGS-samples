@@ -33,19 +33,50 @@ def f_get_CodonPosition(row_info):
 def f_get_SNPCodonPosition(row_info):
     return row_info.split("SNPCodonPosition=")[-1].split(';')[0]
 
-def main(fname_snvs_vcf, fname_mutation_list, fname_snvs_csv):
+# map sample name to location and date
+
+def f_sample2location(sample):
+    location = df_mapping[df_mapping['my_sample_name']==samplename]['location'].values[0]
+    return location
+
+def f_sample2date(sample):
+    samplename = row['sample']
+    date = df_mapping[df_mapping['my_sample_name']==samplename]['date'].values[0]
+    return date
+
+def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
 
     tmp = []
 
     nucleotide_positions_muts_list = pd.read_csv(fname_mutation_list)['PosNucleotide']
 
     f_snv_vcf = str(fname_snvs_vcf)
+    sample_name = f_snv_vcf.split("/")[-4]+"/"+f_snv_vcf.split("/")[-3]
+    batch = f_snv_vcf.split("/")[-3]
+    sample = f_snv_vcf.split("/")[-4]
+
+    # get date and location from timeline file
+    df_timeline = pd.read_csv(
+        fname_timeline,
+        sep="\t",
+        usecols=["sample", "batch", "proto", "date", "location"],
+        encoding="utf-8",
+    )[(df_timeline['sample']==sample) & (df_timeline['batch']==batch)]
+
+    date = df_timeline['date'].unique()
+    location = df_timeline['location'].unique()
+
+
     df_vcf = pyvcf.VcfFrame.from_file(f_snv_vcf).df
-    df_vcf['sample'] = f_snv_vcf.split("/")[-4]+"/"+f_snv_vcf.split("/")[-3]
+    df_vcf['sample'] = sample_name
+    df_vcf['date'] = date
+    df_vcf['location'] = location
     #df_vcf = df_vcf[df_vcf['POS'].isin(nucleotide_positions_muts_list)]
     if df_vcf.shape[0]==0:
         # add empty row
-        df_tmp = pd.DataFrame({"sample": sample_name})
+        df_tmp = pd.DataFrame({"sample": sample_name,
+                               "date": date,
+                               "location": location})
     else:
         df_tmp = df_vcf
 
@@ -73,5 +104,6 @@ if __name__ == "__main__":
     main(
         snakemake.input.fname_snvs_vcf,
         snakemake.params.fname_mutation_list,
+        snakemake.params.fname_timeline,
         snakemake.output.fname_snvs_csv,
     )
