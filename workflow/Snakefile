@@ -201,6 +201,7 @@ rule prepare_heatmap:
                                 values='Frequency',
                                 columns=['mutation_id', 'POS'],
                                 fill_value=0,
+                                dropna=False,
                                ).reset_index()
 
         data = pd.melt(data,
@@ -213,7 +214,6 @@ rule prepare_heatmap:
                         right_on= ['sample', 'pos'])
 
         data.loc[data['coverage']<1, 'Frequency'] = np.nan
-        print(data[data['coverage']<1].shape)
 
         data = data.pivot_table(index=[ 'date', 'location'],
                                 values='Frequency',
