@@ -212,7 +212,8 @@ rule prepare_heatmap:
                         left_on = ['sample', 'POS'],
                         right_on= ['sample', 'pos'])
 
-        data.loc[data['coverage']<10, 'Frequency'] = np.nan
+        data.loc[data['coverage']<1, 'Frequency'] = np.nan
+        print(data[data['coverage']<1].shape)
 
         data = data.pivot_table(index=[ 'date', 'location'],
                                 values='Frequency',
@@ -221,4 +222,4 @@ rule prepare_heatmap:
         data.to_csv(output.fname_heatmap)
 
 
-## 8. To get the heatmap run jupyter notebook
+## 8. To get the heatmap run jupyter notebook: workflow/notebooks/heatmap.mutations_of_interest.ipynb
