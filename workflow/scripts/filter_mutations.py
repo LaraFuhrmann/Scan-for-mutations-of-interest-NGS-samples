@@ -81,7 +81,7 @@ def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
     df_tmp['CodonPosition'] = df_tmp['INFO'].apply(f_get_CodonPosition)
     df_tmp['SNPCodonPosition'] = df_tmp['INFO'].apply(f_get_SNPCodonPosition)
 
-    df_tmp = df_tmp[['sample','POS', 'REF', 'ALT',  'DP', 'n_AltReads', 'n_RefReads', 'RefCodon', 'AltCodon',
+    df_tmp = df_tmp[['sample','location', 'date', 'POS', 'REF', 'ALT',  'DP', 'n_AltReads', 'n_RefReads', 'RefCodon', 'AltCodon',
        'RefAminoAcid', 'AltAminoAcid', 'CodonPosition', 'SNPCodonPosition', 'INFO']]
 
     # load DRM
