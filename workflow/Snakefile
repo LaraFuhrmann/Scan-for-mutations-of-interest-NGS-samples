@@ -167,6 +167,7 @@ rule filter_coverage:
         df =  pd.read_csv(input.fname, sep="\t")
         column_coverage = df.columns[-1]
         df = df.rename(columns={column_coverage: "coverage"})
+        df['sample'] = column_coverage
         df[df['pos'].isin(nucleotide_positions_muts_list)].to_csv(output.fname_csv)
 
 rule merge_coverage:
