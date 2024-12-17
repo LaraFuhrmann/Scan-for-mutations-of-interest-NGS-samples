@@ -189,39 +189,36 @@ rule prepare_heatmap:
     output:
         fname_heatmap="results/signatures/heatmap.mutations_of_interest.csv",
     run:
-    import pandas as pd
-    import numpy as np
+        import pandas as pd
+        import numpy as np
 
-    df_muts = pd.read_csv(input.fname_muts)
-    df_cov = pd.read_csv(input.fname_cov)
+        df_muts = pd.read_csv(input.fname_muts)
+        df_cov = pd.read_csv(input.fname_cov)
 
-    orders = df_muts.sort_values('POS')['mutation_id'].unique()
+        orders = df_muts.sort_values('POS')['mutation_id'].unique()
 
-    data = df_muts.pivot_table(index=['date', "location", "sample"],
-                            values='Frequency',
-                            columns=['mutation_id', 'POS'],
-                            fill_value=0,
-                           ).reset_index()
+        data = df_muts.pivot_table(index=['date', "location", "sample"],
+                                values='Frequency',
+                                columns=['mutation_id', 'POS'],
+                                fill_value=0,
+                               ).reset_index()
 
-    data = pd.melt(data,
-                   id_vars=['date', "location", "sample"],
-                   var_name=['mutation_id', 'POS'],
-                   value_name='Frequency')
+        data = pd.melt(data,
+                       id_vars=['date', "location", "sample"],
+                       var_name=['mutation_id', 'POS'],
+                       value_name='Frequency')
 
-    data = pd.merge(data, df_cov[['pos', 'sample', 'coverage']],
-                    left_on = ['sample', 'POS'],
-                    right_on= ['sample', 'pos'])
+        data = pd.merge(data, df_cov[['pos', 'sample', 'coverage']],
+                        left_on = ['sample', 'POS'],
+                        right_on= ['sample', 'pos'])
 
-    data.loc[data['coverage']<10, 'Frequency'] = np.nan
+        data.loc[data['coverage']<10, 'Frequency'] = np.nan
 
-    data = data.pivot_table(index=[ 'date', 'location'],
-                            values='Frequency',
-                            columns='mutation_id',
-                           ).reindex(columns=orders)
-    data.to_csv(output.fname_heatmap)
-
-
-
+        data = data.pivot_table(index=[ 'date', 'location'],
+                                values='Frequency',
+                                columns='mutation_id',
+                               ).reindex(columns=orders)
+        data.to_csv(output.fname_heatmap)
 
 
 ## 8. To get the heatmap run jupyter notebook
