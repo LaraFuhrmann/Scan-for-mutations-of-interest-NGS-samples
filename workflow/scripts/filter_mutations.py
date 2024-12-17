@@ -33,16 +33,6 @@ def f_get_CodonPosition(row_info):
 def f_get_SNPCodonPosition(row_info):
     return row_info.split("SNPCodonPosition=")[-1].split(';')[0]
 
-# map sample name to location and date
-
-def f_sample2location(sample):
-    location = df_mapping[df_mapping['my_sample_name']==samplename]['location'].values[0]
-    return location
-
-def f_sample2date(sample):
-    samplename = row['sample']
-    date = df_mapping[df_mapping['my_sample_name']==samplename]['date'].values[0]
-    return date
 
 def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
 
@@ -64,8 +54,8 @@ def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
     )
     df_timeline = df_timeline[(df_timeline['sample']==sample) & (df_timeline['batch']==batch)]
 
-    date = df_timeline['date'].unique()
-    location = df_timeline['location'].unique()
+    date = df_timeline['date'].unique()[0]
+    location = df_timeline['location'].unique()[0]
 
 
     df_vcf = pyvcf.VcfFrame.from_file(f_snv_vcf).df
