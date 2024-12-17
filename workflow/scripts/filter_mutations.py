@@ -61,7 +61,8 @@ def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
         sep="\t",
         usecols=["sample", "batch", "proto", "date", "location"],
         encoding="utf-8",
-    )[(df_timeline['sample']==sample) & (df_timeline['batch']==batch)]
+    )
+    df_timeline = df_timeline[(df_timeline['sample']==sample) & (df_timeline['batch']==batch)]
 
     date = df_timeline['date'].unique()
     location = df_timeline['location'].unique()
