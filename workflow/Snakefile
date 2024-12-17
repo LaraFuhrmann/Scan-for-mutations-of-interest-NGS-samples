@@ -190,7 +190,7 @@ rule prepare_heatmap:
         import numpy as np
 
         df_muts = pd.read_csv(input.fname_muts)
-        df_muts['Mutation'] = df_muts['gene']+":"+df_muts['Mutation']
+        df_muts['mutation_id'] = df_muts['gene']+":"+df_muts['Mutation']
         df_muts['Frequency'] =  df_muts['n_AltReads']/(df_muts['n_RefReads']+df_muts['n_AltReads'])
 
         df_cov = pd.read_csv(input.fname_cov)
