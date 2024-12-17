@@ -165,6 +165,8 @@ rule filter_coverage:
         # load DRM
         nucleotide_positions_muts_list = pd.read_csv(params.fname_mutation_list)['PosNucleotide'].unique()
         df =  pd.read_csv(input.fname, sep="\t")
+        column_coverage = df.columns[-1]
+        df = df.rename(columns={column_coverage: "coverage"})
         df[df['pos'].isin(nucleotide_positions_muts_list)].to_csv(output.fname_csv)
 
 rule merge_coverage:
