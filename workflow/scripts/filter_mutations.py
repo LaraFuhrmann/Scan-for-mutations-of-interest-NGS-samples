@@ -67,6 +67,10 @@ def main(fname_snvs_vcf, fname_mutation_list, fname_timeline, fname_snvs_csv):
         # add empty row
         df_tmp = pd.DataFrame({"sample": sample_name,
                                "date": date,
+                               "gene": '.',
+                               "Mutation": '.',
+                               "n_AltReads":0,
+                               "n_RefReads": 1, 
                                "location": location})
     else:
         df_tmp = df_vcf
